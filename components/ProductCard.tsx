@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaEye, FaHeart } from "react-icons/fa";
+import { QuickViewButton, WishlistButton } from "./ActionButtons";
 
 export const ProductCard = () => {
 	const product = {
@@ -7,6 +7,7 @@ export const ProductCard = () => {
 		name: "Product Name",
 		price: 29.99,
 		image: "https://via.placeholder.com/150",
+		discount: 0.2,
 	};
 
 	return (
@@ -28,29 +29,32 @@ export const ProductCard = () => {
           transition-transform duration-100"
 					sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
 				/>
-			</div>
 
-			{/* overlay actions */}
-			<div
-				className="absolute inset-0
+				{/* overlay actions */}
+				<div
+					className="absolute inset-0
       bg-black/40 opacity-0
       group-hover:opacity-100
       transition-opacity duration-300 flex items-center justify-center gap-2"
-			>
-				{/* TODO: MAKE IT as its own component */}
-				<button
-					className="bg-white/90 hover:bg-white"
-					aria-label={`Quick View ${product.name}`}
 				>
-					<FaEye className="w-4 h-4" />
-				</button>
-				<button
-					className="bg-white/90 hover:bg-white"
-					aria-label={`Add ${product.name} to wishlist`}
-				>
-					<FaHeart className="w-4 h-4" />
-				</button>
+					<QuickViewButton productId={product.id} productName={product.name} />
+					<WishlistButton productId={product.id} productName={product.name} />
+				</div>
+
+				{/* TODO: MAKE BADGES RE-USEABLE */}
+				{/* Badges */}
+				{product.discount && (
+					<span
+						className="
+          absolute top-2 left-2 bg-error-500 
+          text-white px-2 py-1 rounded-md text-xs font-medium"
+					>
+						-{product.discount}%
+					</span>
+				)}
 			</div>
+
+			{/* CONTENT */}
 		</article>
 	);
 };
